@@ -1,0 +1,32 @@
+{
+  "name": "message-land",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "start": "bankai start -p 8080 --open",
+    "build": "bankai build -o && gh-pages -d dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joehand/message-land.git"
+  },
+  "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joehand/message-land/issues"
+  },
+  "homepage": "https://github.com/joehand/message-land#readme",
+  "dependencies": {
+    "choo": "^3.2.2",
+    "level-browserify": "^1.1.0",
+    "peer-status-feed": "^1.1.1",
+    "sheetify": "^5.1.0",
+    "tachyons": "^4.2.0"
+  },
+  "devDependencies": {
+    "bankai": "^3.2.0",
+    "gh-pages": "^0.11.0"
+  }
+}
