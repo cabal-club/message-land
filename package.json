@@ -26,7 +26,8 @@
     "url": "https://github.com/joehand/message-land.git"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server",
+    "start-2": "node server/express.js"
   },
   "dependencies": {
     "autolinker": "^1.8.1",
@@ -49,9 +50,20 @@
     "sheetify-nested": "^1.0.2",
     "random-access-idb": "^1.2.0",
     "collect-stream": "^1.2.1",
-    "helmet-csp": "^2.7.1"
+    "helmet-csp": "^2.7.1",
+    "bankai": "^9.15.0"
   },
   "engines": {
     "node": "10.x"
-  }
+  },
+  "browserify": {
+     "transform": [
+       "brfs"
+     ]
+   },
+   "sheetify": {
+     "transform": [
+       "sheetify-nested"
+     ]
+   }
 }

@@ -30,12 +30,13 @@ app.use(handleScroll)
 app.use(updateTimestamps)
 app.route('/', mainView)
 app.route('/cabal/:key', mainView)
+// app.route('/cabal/:key/:channel', mainView)
 app.mount('body')
 
 function mainView (state, emit) {
-  var onScrollDebounced = debounce(onScroll, 50)
+  const onScrollDebounced = debounce(onScroll, 50)
   
-  var footer = html`
+  const footer = html`
     <footer class="fixed w-100 bottom-0 ph3 pv2 ph4-m ph5-l bg-black">
       <nav class="flex code f5 ttl light-pink">
         <span class="center">cabal://${state.key}</span>
@@ -66,7 +67,7 @@ function mainView (state, emit) {
               ${cabalKey()}
           </div>
         </div>
-        <footer class="">
+        <footer class="absolute bottom-0">
           ${sourceBtns(state)}
         </footer>
       </div>
@@ -77,9 +78,9 @@ function mainView (state, emit) {
       return html`
         <div class="measure center">
           <button class="b f4 ttl center mb3 input-reset grow pointer bg-black light-green br4 ba b--light-green pv3 ph2 mb2 db w-75" onclick=${newCabal}>
-            Create Cabal!
+            Create a Cabal!
           </button>
-          <small id="key-desc" class="f2 b small-caps db near-black">Start a new Chat.</small>
+          <small id="key-desc" class="f2 b small-caps db near-black">Start a New Chat.</small>
         </div>
       `
       
@@ -100,7 +101,7 @@ function mainView (state, emit) {
       `
       
       function loadCabal (e) {
-        var value = e.target.value
+        const value = e.target.value
         if (e.keyCode === 13) {
           e.target.value = ''
           emit('cabal:load', value)
@@ -165,7 +166,7 @@ function mainView (state, emit) {
     } 
     
     function handleNick (e) {
-      var value = e.target.value
+      const value = e.target.value
       state.nickInput = value
       if (e.keyCode === 13) {
         state.nickInput = e.target.value = ''
@@ -175,7 +176,7 @@ function mainView (state, emit) {
     }
     
     function handleInput (e) {
-      var value = e.target.value
+      const value = e.target.value
       state.messageInput = value
       if (e.keyCode === 13) {
         state.messageInput = e.target.value = ''
@@ -187,7 +188,7 @@ function mainView (state, emit) {
   function messages () {
     return state.messages.map(msg => {
       const val = msg.value
-      var msgEl = html`<p class="f5 mt2 lh-copy"></p>`
+      const msgEl = html`<p class="f5 mt2 lh-copy"></p>`
       msgEl.innerHTML = val.content.text
 
       return html`
@@ -230,7 +231,7 @@ function mainView (state, emit) {
 function updateTimestamps (state, emitter) {
   
   // render on inactivty to update timestamps
-  var activityTimeout = setTimeout(inActive, 10000)
+  let activityTimeout = setTimeout(inActive, 10000)
   emitter.on('render', function () {
     clearTimeout(activityTimeout)
     activityTimeout = setTimeout(inActive, 10000)

@@ -11,6 +11,7 @@ function connectCabal (state, emitter) {
   
   emitter.once(state.events.DOMCONTENTLOADED, function () {
    if (state.params && state.params.key) {
+     // if (state.params.channel) state.channel = state.params.channel
      emitter.emit('cabal:load', state.params.key)
    }
   })
@@ -24,7 +25,7 @@ function connectCabal (state, emitter) {
     const wsUrl = `${proto}://${host}/cabal/${key}`
 
     state = Object.assign(state, {
-      channel: 'default',
+      channel: state.channel || 'default',
       key: key,
       cabal: null,
       messages: [],
@@ -78,7 +79,7 @@ function connectCabal (state, emitter) {
   
   function createCabal () {
     const storage = rai(`doc-${state.key}`)
-    var cabal = Cabal(storage, state.key)
+    const cabal = Cabal(storage, state.key)
     let cabalStream
     let retries = 0
 
@@ -92,21 +93,21 @@ function connectCabal (state, emitter) {
           type: 'chat/text',
           content: {
             channel: 'default',
-            text: 'Welcome to your new Cabal! Share the link at the bottom to start chatting.'
+            text: 'Welcome to your new Cabal on message.land! Share the url or cabal:// link on the bottom to start chatting.'
           }
         }, replicate)
       } else {
         replicate()  
       }
       
-      if (!state.params.key) emitter.emit(state.events.PUSHSTATE, `cabal/${state.key}`)
+      if (!state.params.key) emitter.emit(state.events.PUSHSTATE, `cabal/${state.key}`) ///${state.channel}`)
       emitter.emit('render')
     })
     
 
     function replicate () {
       retries++
-      emitter.emit('log:info', 'starting websocket', state.wsUrl)
+      emitter.emit('log:info', 'starting websocket - ' + state.wsUrl)
       
       const stream = wss(state.wsUrl)
       cabalStream = cabal.replicate({live: true, encrypt: false})
@@ -149,7 +150,7 @@ function connectCabal (state, emitter) {
     console.log('start getting cabal msgs yay')
     if (!state.messages) state.messages = []
     
-    var pending = 0
+    let pending = 0
     function onMessage () {
       if (pending > 0) {
         pending++
@@ -159,7 +160,7 @@ function connectCabal (state, emitter) {
     
       // From cabal CLI =)
       // TODO: wrap this up in a nice interface and expose it via cabal-client 
-      var rs = state.cabal.messages.read('default', {limit: 25, lt: '~'})
+      const rs = state.cabal.messages.read(state.channel, {limit: 25, lt: '~'})
       collect(rs, function (err, msgs) {
         if (err) return
         
@@ -170,7 +171,7 @@ function connectCabal (state, emitter) {
         })
         emitter.emit('message')
 
-        state.cabal.topics.get('default', (err, topic) => {
+        state.cabal.topics.get(state.channel, (err, topic) => {
           if (err) return
           if (topic) {
             state.topic = topic
@@ -187,7 +188,7 @@ function connectCabal (state, emitter) {
       })
     }
 
-    state.cabal.messages.events.on('default', onMessage)
+    state.cabal.messages.events.on(state.channel, onMessage)
     onMessage()
   }
 }
