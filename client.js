@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use(function (state, emitter) {
   emitter.emit(state.events.DOMTITLECHANGE, 'Welcome to message.land!')
-  // state.key = '0b2a6c1c58014fe0da6dff38df6282157c405bc0ed7b550cda5c8c43d8067047' 
+  // state.key = '0b2a6c1c58014fe0da6dff38df6282157c405bc0ed7b550cda5c8c43d8067047'
 })
 
 app.use(state => {
@@ -35,7 +35,7 @@ app.mount('body')
 
 function mainView (state, emit) {
   const onScrollDebounced = debounce(onScroll, 50)
-  
+
   const footer = html`
     <footer class="fixed w-100 bottom-0 ph3 pv2 ph4-m ph5-l bg-black">
       <nav class="flex code f5 ttl light-pink">
@@ -46,11 +46,11 @@ function mainView (state, emit) {
 
   return html`
     <body class="courier" onscroll=${onScrollDebounced}>
-      ${state.key && state.channel ? channel() : welcome() }
-      ${state.key ? footer : '' }
+      ${state.key && state.channel ? channel() : welcome()}
+      ${state.key ? footer : ''}
     </body>
   `
-  
+
   function welcome () {
     return html`
       <div class="">
@@ -72,8 +72,7 @@ function mainView (state, emit) {
         </footer>
       </div>
     `
-    
-    
+
     function newCabal () {
       return html`
         <div class="measure center">
@@ -83,12 +82,12 @@ function mainView (state, emit) {
           <small id="key-desc" class="f2 b small-caps db near-black">Start a New Chat.</small>
         </div>
       `
-      
+
       function newCabal (e) {
         emit('cabal:create')
       }
     }
-    
+
     function cabalKey () {
       return html`
         <div class="measure center">
@@ -99,7 +98,7 @@ function mainView (state, emit) {
           <small id="key-desc" class="f2 b small-caps db">Join a Cabal!</small>
         </div>
       `
-      
+
       function loadCabal (e) {
         const value = e.target.value
         if (e.keyCode === 13) {
@@ -109,8 +108,7 @@ function mainView (state, emit) {
       }
     }
   }
-  
-  
+
   function channel () {
     return html`
       <div class="mw-100 center">
@@ -125,7 +123,7 @@ function mainView (state, emit) {
             </p>
           </div>
           <div class="pv6 bodoni dark-gray bg-near-white">
-            ${state.messages.length || state.connected ? messages() : loading() }
+            ${state.messages.length || state.connected ? messages() : loading()}
           </div>
         </div>
         <div class="">
@@ -134,7 +132,7 @@ function mainView (state, emit) {
       </div>
     `
   }
-  
+
   function chatBox () {
     return html`
       <div class="w-100 bg-white fixed bottom-0 bt b--black  mb4 ph2 ph5-l">
@@ -151,7 +149,7 @@ function mainView (state, emit) {
             onkeydown=${handleInput} />
       </div>
     `
-    
+
     function nickname () {
       if (state.setNick) return ''
       if (state.nickname) return html`<div class="absolute pv4-ns left-1 mw4 pr1 f4 dark-gray" onclick=${setNick}>${state.nickname}</a>`
@@ -159,12 +157,12 @@ function mainView (state, emit) {
         <a class="absolute f6 link dim br2 ph2 mv4-ns dib white bg-navy pv1 left-0 top-0 ml1" onclick=${setNick}>Set Name</a>
       `
     }
-    
+
     function setNick () {
       state.setNick = true
       emit('render')
-    } 
-    
+    }
+
     function handleNick (e) {
       const value = e.target.value
       state.nickInput = value
@@ -174,7 +172,7 @@ function mainView (state, emit) {
         emit('cabal:publishNick', value)
       }
     }
-    
+
     function handleInput (e) {
       const value = e.target.value
       state.messageInput = value
@@ -184,7 +182,7 @@ function mainView (state, emit) {
       }
     }
   }
-  
+
   function messages () {
     return state.messages.map(msg => {
       const val = msg.value
@@ -216,27 +214,25 @@ function mainView (state, emit) {
 
   function onScroll (e) {
     if ((window.innerHeight + window.scrollY + 250) >= document.body.offsetHeight) {
-        emit('scroll:bottom')
+      emit('scroll:bottom')
     } else {
       state.stickBottom = false
     }
-    
+
     if ((window.scrollY - window.innerHeight + 250) < 0) {
       emit('scroll:top')
     }
   }
-  
 }
 
 function updateTimestamps (state, emitter) {
-  
   // render on inactivty to update timestamps
   let activityTimeout = setTimeout(inActive, 10000)
   emitter.on('render', function () {
     clearTimeout(activityTimeout)
     activityTimeout = setTimeout(inActive, 10000)
   })
-  
+
   emitter.on('connected', function () {
     emitter.emit(state.events.DOMTITLECHANGE, 'Cabal ~~ ON-!')
     state.connected = true
@@ -251,29 +247,29 @@ function updateTimestamps (state, emitter) {
 function handleScroll (state, emitter) {
   emitter.on('scroll:top', function () {
     emitter.emit('cabal:backlog')
-//     state.startIndex = Math.max(state.startIndex - loadNum, 1)
+    //     state.startIndex = Math.max(state.startIndex - loadNum, 1)
 
-//     var stream = state.feed.createReadStream({live: false, start: state.startIndex, end: state.startIndex + loadNum})
-//     stream.on('data', function (data) {
-//       msgs.unshift(parseMessage(data))
-//     })
-//     stream.on('end', function () {
-//       state.messages = state.messages.concat(msgs)
-//       emitter.emit('render')
-//     })
+    //     var stream = state.feed.createReadStream({live: false, start: state.startIndex, end: state.startIndex + loadNum})
+    //     stream.on('data', function (data) {
+    //       msgs.unshift(parseMessage(data))
+    //     })
+    //     stream.on('end', function () {
+    //       state.messages = state.messages.concat(msgs)
+    //       emitter.emit('render')
+    //     })
   })
-  
+
   emitter.on('scroll:bottom', function () {
     state.stickBottom = true
   })
-  
+
   emitter.on('message', function () {
     // console.log(state.messages)
     emitter.emit('render')
     if (state.stickBottom || state.forceScroll) {
       setTimeout(function () {
-        window.scrollTo(0,document.body.scrollHeight)
-      },100)
+        window.scrollTo(0, document.body.scrollHeight)
+      }, 100)
     }
   })
 }

@@ -53,10 +53,9 @@ router.get('/cabal/:key', serveIndex)
 
 runBudo()
 
-
 function runBudo () {
   const port = process.env.PORT || 5000
-  const devServer = budo('index.js', {
+  const devServer = budo('client.js', {
     port,
     browserify: {
       transform: [
@@ -128,15 +127,15 @@ function attachWebsocket (server) {
       //   }
       // })
     }
-    
+
     cabal.db.ready(() => {
       // Join swarm
       const sw = swarm(cabal)
       cabals[cabalKey].swarm = sw
-      
+
       cabals[cabalKey].clients += 1
       const stream = websocketStream(ws)
-      
+
       pump(
         stream,
         cabal.replicate(), // cabal is live: true and encryt: false by default
@@ -147,7 +146,7 @@ function attachWebsocket (server) {
         }
       )
     })
-    
+
     function cancel () {
       console.log(`Cancelling ${cabalKey}`)
       const sw = cabals[cabalKey].swarm

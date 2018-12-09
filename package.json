@@ -20,14 +20,14 @@
     "chat",
     "p2p"
   ],
-  "main": "index.js",
+  "main": "client.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/joehand/message-land.git"
   },
   "scripts": {
-    "start": "node server",
-    "start-2": "node server/express.js"
+    "start-dev": "node server",
+    "start": "bankai build client.js && node server/express.js"
   },
   "dependencies": {
     "autolinker": "^1.8.1",
@@ -57,13 +57,13 @@
     "node": "10.x"
   },
   "browserify": {
-     "transform": [
-       "brfs"
-     ]
-   },
-   "sheetify": {
-     "transform": [
-       "sheetify-nested"
-     ]
-   }
+    "transform": [
+      "brfs"
+    ]
+  },
+  "sheetify": {
+    "transform": [
+      "sheetify-nested"
+    ]
+  }
 }
