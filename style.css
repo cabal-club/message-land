@@ -1,4 +1,35 @@
-html,
-body {
-    height: 100%;
-}
+.pulse-circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(205, 236, 255, 0.7);
+    animation: pulse 4s 1s infinite;
+  }
+  .pulse-circle:hover {
+    animation: none;
+  }
+  @-webkit-keyframes pulse {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(205, 236, 255, 1);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(205, 236, 255, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(205, 236, 255, 0);
+    }
+  }
+  @keyframes pulse {
+    0% {
+      -moz-box-shadow: 0 0 0 0 rgba(205, 236, 255, 1);
+      box-shadow: 0 0 0 0 rgba(205, 236, 255, 1);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 20px rgba(205, 236, 255, 0);
+        box-shadow: 0 0 0 20px rgba(205, 236, 255, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(205, 236, 255, 0);
+        box-shadow: 0 0 0 0 rgba(205, 236, 255, 0);
+    }
+  }
