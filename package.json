@@ -1,32 +1,57 @@
 {
   "name": "message-land",
+  "description": "cabal on the internets!",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "standard",
-    "start": "bankai start -p 8080 --open",
-    "build": "bankai build -o && gh-pages -d dist/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/joehand/message-land.git"
-  },
-  "author": "Joe Hand <joe@hand.email> (https://joeahand.com/)",
-  "license": "MIT",
+  "author": "Joe Hand <joe@hand.email>",
   "bugs": {
-    "url": "https://github.com/joehand/message-land/issues"
-  },
-  "homepage": "https://github.com/joehand/message-land#readme",
-  "dependencies": {
-    "choo": "^3.2.2",
-    "level-browserify": "^1.1.0",
-    "peer-status-feed": "^1.1.1",
-    "sheetify": "^5.1.0",
-    "tachyons": "^4.2.0"
+    "url": "https://github.com/joehand/message-land"
   },
   "devDependencies": {
-    "bankai": "^3.2.0",
-    "gh-pages": "^0.11.0"
+    "standard": "*",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.0"
+  },
+  "homepage": "https://github.com/joehand/message-land",
+  "keywords": [
+    "dat",
+    "hypercore",
+    "irc",
+    "cabal",
+    "chat",
+    "p2p"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joehand/message-land.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "autolinker": "^1.8.1",
+    "choo": "^6.13.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "pump": "^3.0.0",
+    "random-access-memory": "^3.1.1",
+    "sheetify": "^7.3.3",
+    "tachyons": "^4.11.1",
+    "websocket-stream": "^5.1.2",
+    "cabal-core": "^4.0.0",
+    "express-ws": "^4.0.0",
+    "express": "^4.16.4",
+    "budo": "^11.5.0",
+    "choo-devtools": "^2.5.1",
+    "compression": "^1.7.3",
+    "hsts": "^2.1.0",
+    "brfs": "^2.0.1",
+    "sheetify-nested": "^1.0.2",
+    "random-access-idb": "^1.2.0",
+    "collect-stream": "^1.2.1",
+    "helmet-csp": "^2.7.1"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
