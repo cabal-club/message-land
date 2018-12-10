@@ -20,7 +20,7 @@ app.use(function (state, emitter) {
 
 app.use(state => {
   state.glitchAppName = 'message-land'
-  state.gitHubRepoName = 'joehand/message-land'
+  state.gitHubRepoName = 'cabal-club/message-land'
 })
 app.use(cabal)
 app.use(handleScroll)
@@ -34,9 +34,17 @@ function mainView (state, emit) {
   const onScrollDebounced = debounce(onScroll, 50)
 
   const footer = html`
-    <footer class="fixed w-100 bottom-0 ph3 pv2 ph4-m ph5-l bg-black">
-      <nav class="flex code f5 ttl light-pink">
-        <span class="center">cabal://${state.key}</span>
+    <footer class="fixed w-100 bottom-0 ph3 pv2 ph4-m light-green bg-near-black">
+      <nav class="flex justify-between">
+        <div class="">
+          <a href="https://github.com/cabal-club/message-land" title="Github" class="f6 dib light-green dim">view source</a>
+          <a href="https://glitch.com/edit/#!/remix/message-land" title="Remix on Glitch" class="f6 dib pl2 light-green dim">remix</a>
+        </div>
+        <span class="f6 b ttl light-purple">cabal://${state.key}</span>
+        <div class="">
+          <a href="https://cabal.chat"    title="Cabal" class="f6 dib ph2 light-green dim">cabal.chat</a>
+          <a href="#license"  title="License" class="f6 dib pl2 light-green dim">license</a>
+        </div>
       </nav>
     </footer>
   `
@@ -52,19 +60,19 @@ function mainView (state, emit) {
     return html`
       <div class="">
         <div class="absolute w-100">
-          <h1 class="f3"><span class="tr black w-50 fl">message   ·</span><span class="light-purple w-50 pl3">land</span></h1>
+          <h1 class="f3"><span class="tr light-green w-50 fl">message   ·</span><span class="light-purple w-50 pl3">land</span></h1>
         </div>
-        <div class="vh-100 dt w-50 fl bg-light-purple black">
+        <div class="vh-100 dt w-50 fl bg-light-purple near-black">
           <div class="dtc v-mid tc ph3 ph4-l">
               ${newCabal()}
           </div>
         </div>
-        <div class="vh-100 dt w-50 bg-black light-green">
+        <div class="vh-100 dt w-50 bg-light-green near-black">
           <div class="dtc v-mid tc ph3 ph4-l">
               ${cabalKey()}
           </div>
         </div>
-        <footer class="absolute bottom-0">
+        <footer class="absolute bottom-0 right-0 pt2 pb1 ph2 br3 br--top br--left bg-light-purple">
           ${sourceBtns(state)}
         </footer>
       </div>
@@ -88,8 +96,11 @@ function mainView (state, emit) {
     function cabalKey () {
       return html`
         <div class="measure center">
-          <input id="key" class="f4 ttl bg-light-purple white center mb3 input-reset br4 ba b--light-green pv3 ph2 mb2 db w-75" type="text" aria-describedby="key-desc"
-            autofocus
+          <input id="key"
+            class="f4 ttl bg-washed-blue
+              black center mb3 br4 input-reset ba b--black-20
+              pv3 ph2 mb2 db w-75"
+              type="text" aria-describedby="key-desc"
             placeholder="cabal://..."
             onkeydown=${loadCabal} />
           <small id="key-desc" class="f2 b small-caps db">Join a Cabal!</small>
@@ -110,12 +121,12 @@ function mainView (state, emit) {
     return html`
       <div class="mw-100 center">
         <div class="">
-          <div class="fixed w-100 top-0 flex justify-between pa1 ph5-ns bb b--gold gold bg-navy">
+          <div class="fixed w-100 top-0 flex justify-between pa1 ph5-ns bb b--washed-blue bg-near-black light-green">
             <div class="flex items-center f3">
               <span class="mr3">${state.channel}</span>
               <span class="gray f4">${state.topic}</span>
             </div>
-            <p class="flex-grow flex items-center f4 gold ma0 lh-copy measure-wide">
+            <p class="flex-grow flex items-center f4 light-green ma0 lh-copy measure-wide">
               ${state.connected ? html`<span><span class="v-mid mr2 bg-light-blue dib pulse-circle"></span>connected</span>` : 'Connecting...'}
             </p>
           </div>
@@ -151,7 +162,7 @@ function mainView (state, emit) {
       if (state.setNick) return ''
       if (state.nickname) return html`<div class="absolute pv4-ns left-1 mw4 pr1 f4 dark-gray" onclick=${setNick}>${state.nickname}</a>`
       return html`
-        <a class="absolute f6 link dim br2 ph2 mv4-ns dib white bg-navy pv1 left-0 top-0 ml1" onclick=${setNick}>Set Name</a>
+        <a class="absolute f6 link dim br2 ph2 mv4-ns dib light-purple bg-near-black pv1 left-0 top-0 ml1" onclick=${setNick}>Set Name</a>
       `
     }
 

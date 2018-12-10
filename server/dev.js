@@ -8,8 +8,9 @@ const dbGateway = require('./dbGateway')
 
 require('events').prototype._maxListeners = 100
 
+process.chdir(path.resolve(__dirname, '..'))
+
 const router = express.Router()
-const attachWebsocket = dbGateway(router)
 
 function serveIndex (req, res, next) {
   req.url = '/'
@@ -19,13 +20,12 @@ function serveIndex (req, res, next) {
 router.get('/', serveIndex)
 router.get('/index.html', serveIndex)
 router.get('/cabal/:key', serveIndex)
-// router.get('/cabal/:key/:channel', serveIndex)
 
-runBudo()
+const attachWebsocket = dbGateway(router)
 
 function runBudo () {
   const port = process.env.PORT || 5000
-  const devServer = budo(path.join(__dirname, '..', 'client.js'), {
+  const devServer = budo('client.js', {
     port,
     browserify: {
       transform: [
@@ -34,18 +34,18 @@ function runBudo () {
       ]
     },
     middleware: [
-      hsts({ maxAge: 10886400 }),
+      hsts({maxAge: 10886400}),
       compression(),
       // serviceWorkerNoCache,
       // redirectToHttps,
-      express.static('img'),
+      // express.static('img'),
       router
-    ],
-    dir: ['.', 'static', '.data'],
-    staticOptions: {
-      cacheControl: true,
-      maxAge: 60 * 60 * 1000 // one hour
-    }
+    ]
+    // dir: ['.data'],
+    // staticOptions: {
+    //   cacheControl: true,
+    //   maxAge: 60 * 60 * 1000 // one hour
+    // }
     /*
     stream: process.stdout,
     verbose: true
@@ -57,3 +57,5 @@ function runBudo () {
     periodicRestart(24 * 60) // Daily
   })
 }
+
+runBudo()
