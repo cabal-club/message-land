@@ -4,12 +4,21 @@
   "version": "1.0.0",
   "author": "Joe Hand <joe@hand.email>",
   "bugs": {
-    "url": "https://github.com/joehand/message-land"
+    "url": "https://github.com/cabal-club/message-land"
   },
   "devDependencies": {
+    "bankai": "^9.15.0",
+    "brfs": "^2.0.1",
+    "budo": "^11.5.0",
+    "compression": "^1.7.3",
+    "dependency-check": "^3.2.1",
+    "express": "^4.16.4",
+    "express-ws": "^4.0.0",
+    "hsts": "^2.1.0",
+    "sheetify-nested": "^1.0.2",
     "standard": "*"
   },
-  "homepage": "https://github.com/joehand/message-land",
+  "homepage": "https://github.com/cabal-club/message-land",
   "keywords": [
     "dat",
     "hypercore",
@@ -21,34 +30,29 @@
   "main": "client.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joehand/message-land.git"
+    "url": "https://github.com/cabal-club/message-land.git"
   },
   "scripts": {
-    "test": "standard",
     "build": "bankai build client.js",
     "dev": "node server/dev.js",
-    "start": "node server"
+    "start": "node server",
+    "test": "standard && npm run test-deps",
+    "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
   },
   "dependencies": {
+    "cabal-core": "^4.0.0",
     "choo": "^6.13.1",
+    "choo-devtools": "^2.5.1",
+    "choo-service-worker": "^2.4.0",
+    "collect-stream": "^1.2.1",
+    "hypercore-crypto": "^1.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "pump": "^3.0.0",
+    "random-access-idb": "^1.2.0",
     "sheetify": "^7.3.3",
     "tachyons": "^4.11.1",
-    "websocket-stream": "^5.1.2",
-    "cabal-core": "^4.0.0",
-    "express-ws": "^4.0.0",
-    "express": "^4.16.4",
-    "budo": "^11.5.0",
-    "choo-devtools": "^2.5.1",
-    "compression": "^1.7.3",
-    "hsts": "^2.1.0",
-    "brfs": "^2.0.1",
-    "sheetify-nested": "^1.0.2",
-    "random-access-idb": "^1.2.0",
-    "collect-stream": "^1.2.1",
-    "bankai": "^9.15.0"
+    "websocket-stream": "^5.1.2"
   },
   "engines": {
     "node": "10.x"

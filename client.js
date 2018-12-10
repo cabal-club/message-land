@@ -12,13 +12,12 @@ css('./style.css')
 const app = choo()
 if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
+} else {
+  app.use(require('choo-service-worker')())
 }
-app.use(function (state, emitter) {
-  emitter.emit(state.events.DOMTITLECHANGE, 'Welcome to message.land!')
-  // state.key = '0b2a6c1c58014fe0da6dff38df6282157c405bc0ed7b550cda5c8c43d8067047'
-})
 
-app.use(state => {
+app.use((state, emitter) => {
+  emitter.emit(state.events.DOMTITLECHANGE, 'Welcome to message.land!')
   state.glitchAppName = 'message-land'
   state.gitHubRepoName = 'cabal-club/message-land'
 })

@@ -20,6 +20,7 @@ function serveIndex (req, res, next) {
 router.get('/', serveIndex)
 router.get('/index.html', serveIndex)
 router.get('/cabal/:key', serveIndex)
+router.get('*', (req, res) => res.redirect('/'))
 
 const attachWebsocket = dbGateway(router)
 
@@ -34,7 +35,7 @@ function runBudo () {
       ]
     },
     middleware: [
-      hsts({maxAge: 10886400}),
+      hsts({ maxAge: 10886400 }),
       compression(),
       // serviceWorkerNoCache,
       // redirectToHttps,
