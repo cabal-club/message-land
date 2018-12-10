@@ -42,7 +42,7 @@ function mainView (state, emit) {
         </div>
         <span class="f6 b ttl light-purple">cabal://${state.key}</span>
         <div class="">
-          <a href="https://cabal.chat"    title="Cabal" class="f6 dib ph2 light-green dim">cabal.chat</a>
+          <a href="http://cabal.chat"    title="Cabal" class="f6 dib ph2 light-green dim">cabal.chat</a>
           <a href="#license"  title="License" class="f6 dib pl2 light-green dim">license</a>
         </div>
       </nav>
