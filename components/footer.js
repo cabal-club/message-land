@@ -11,7 +11,7 @@ const prefix = css`
     align-items: center;
 
     & > * {
-      // margin: 0.1rem;
+      margin: 0.1rem;
     }
 
     & > a {
