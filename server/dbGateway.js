@@ -4,7 +4,7 @@ const websocketStream = require('websocket-stream/stream')
 const pump = require('pump')
 const Cabal = require('cabal-core')
 const swarm = require('cabal-core/swarm')
-const ram = require('random-access-memory')
+// const ram = require('random-access-memory')
 
 module.exports = dbGateway
 
@@ -15,7 +15,7 @@ setInterval(function cleanup () {
   const sortedCabals = Object.values(cabals).sort((a, b) => a.lastAccess - b.lastAccess)
   console.log('Oldest to newest gatewayed cabals:')
   sortedCabals.forEach((entry, index) => {
-    const {cabal, lastAccess, clients, peers} = entry
+    const { cabal, lastAccess, clients, peers } = entry
     const key = cabal.key && cabal.key.toString('hex')
     console.log(`  ${index} ${lastAccess} ${key} (${clients} clients, ${peers} peers)`)
   })

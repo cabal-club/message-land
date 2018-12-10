@@ -108,7 +108,7 @@ function connectCabal (state, emitter) {
       emitter.emit('log:info', 'starting websocket - ' + state.wsUrl)
 
       const stream = wss(state.wsUrl)
-      cabalStream = cabal.replicate({live: true, encrypt: false})
+      cabalStream = cabal.replicate({ live: true, encrypt: false })
 
       stream.once('connect', function () {
         emitter.emit('connected')
@@ -158,7 +158,7 @@ function connectCabal (state, emitter) {
 
       // From cabal CLI =)
       // TODO: wrap this up in a nice interface and expose it via cabal-client
-      const rs = state.cabal.messages.read(state.channel, {limit: 25, lt: '~'})
+      const rs = state.cabal.messages.read(state.channel, { limit: 25, lt: '~' })
       collect(rs, function (err, msgs) {
         if (err) return
 

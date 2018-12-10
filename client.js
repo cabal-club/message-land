@@ -2,10 +2,7 @@ const html = require('choo/html')
 const choo = require('choo')
 const css = require('sheetify')
 const moment = require('moment')
-const Autolinker = require('autolinker')
-const strftime = require('strftime')
 const debounce = require('lodash/debounce')
-const logo = require('./elements/logo')
 const sourceBtns = require('./components/footer')
 const cabal = require('./cabal-web')
 
@@ -91,7 +88,7 @@ function mainView (state, emit) {
     function cabalKey () {
       return html`
         <div class="measure center">
-          <input id="key" class="f4 ttl bg-light-purple white center mb3 input-reset br4 ba b--light-green pv3 ph2 mb2 db w-75" type="text" aria-describedby="key-desc" 
+          <input id="key" class="f4 ttl bg-light-purple white center mb3 input-reset br4 ba b--light-green pv3 ph2 mb2 db w-75" type="text" aria-describedby="key-desc"
             autofocus
             placeholder="cabal://..."
             onkeydown=${loadCabal} />
@@ -137,13 +134,13 @@ function mainView (state, emit) {
     return html`
       <div class="w-100 bg-white fixed bottom-0 bt b--black  mb4 ph2 ph5-l">
         ${nickname()}
-        <input class="${state.setNick ? 'absolute' : 'dn'} w-100 f4 pa2 ph5-ns pv4-ns input-reset bn b0" 
-            placeholder="Set nickname" 
+        <input class="${state.setNick ? 'absolute' : 'dn'} w-100 f4 pa2 ph5-ns pv4-ns input-reset bn b0"
+            placeholder="Set nickname"
             ${state.setNick ? 'autofocus' : ''}
             value=${state.nickInput ? state.nickInput : ''}
             onkeydown=${handleNick} />
-        <input class="w-100 f4 pa2 ph5-ns pv4-ns input-reset bn b0" 
-            placeholder="Send a message..." 
+        <input class="w-100 f4 pa2 ph5-ns pv4-ns input-reset bn b0"
+            placeholder="Send a message..."
             ${!state.setNick ? 'autofocus' : ''}
             value=${state.messageInput ? state.messageInput : ''}
             onkeydown=${handleInput} />

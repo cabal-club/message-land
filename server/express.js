@@ -1,6 +1,5 @@
 const http = require('http')
 const path = require('path')
-const bankai = require('bankai/http')
 const express = require('express')
 const compression = require('compression')
 const hsts = require('hsts')
@@ -17,7 +16,7 @@ function serveIndex (req, res, next) {
   next()
 }
 
-app.use(hsts({maxAge: 10886400}))
+app.use(hsts({ maxAge: 10886400 }))
 app.use(compression())
 app.use(router)
 app.get('/', serveIndex)
