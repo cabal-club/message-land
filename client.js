@@ -224,10 +224,11 @@ function mainView (state, emit) {
 
 function updateTimestamps (state, emitter) {
   // render on inactivty to update timestamps
-  let activityTimeout = setTimeout(inActive, 10000)
+  // todo: fix this so it doesn't erase the input text
+  let activityTimeout = setTimeout(inActive, 50000)
   emitter.on('render', function () {
     clearTimeout(activityTimeout)
-    activityTimeout = setTimeout(inActive, 10000)
+    activityTimeout = setTimeout(inActive, 50000)
   })
 
   emitter.on('connected', function () {
