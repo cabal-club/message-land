@@ -7,9 +7,7 @@
     "url": "https://github.com/joehand/message-land"
   },
   "devDependencies": {
-    "standard": "*",
-    "tap-spec": "^4.0.2",
-    "tape": "^4.0.0"
+    "standard": "*"
   },
   "homepage": "https://github.com/joehand/message-land",
   "keywords": [
@@ -20,22 +18,21 @@
     "chat",
     "p2p"
   ],
-  "main": "index.js",
+  "main": "client.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/joehand/message-land.git"
   },
   "scripts": {
-    "start": "node server",
-    "start-2": "node server/express.js"
+    "test": "standard",
+    "dev": "node server",
+    "start": "bankai build client.js && node server/express.js"
   },
   "dependencies": {
-    "autolinker": "^1.8.1",
     "choo": "^6.13.1",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "pump": "^3.0.0",
-    "random-access-memory": "^3.1.1",
     "sheetify": "^7.3.3",
     "tachyons": "^4.11.1",
     "websocket-stream": "^5.1.2",
@@ -50,20 +47,19 @@
     "sheetify-nested": "^1.0.2",
     "random-access-idb": "^1.2.0",
     "collect-stream": "^1.2.1",
-    "helmet-csp": "^2.7.1",
     "bankai": "^9.15.0"
   },
   "engines": {
     "node": "10.x"
   },
   "browserify": {
-     "transform": [
-       "brfs"
-     ]
-   },
-   "sheetify": {
-     "transform": [
-       "sheetify-nested"
-     ]
-   }
+    "transform": [
+      "brfs"
+    ]
+  },
+  "sheetify": {
+    "transform": [
+      "sheetify-nested"
+    ]
+  }
 }

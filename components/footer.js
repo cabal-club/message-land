@@ -37,7 +37,7 @@ const prefix = css`
 module.exports = footer
 
 function footer (state) {
-  const {glitchAppName, gitHubRepoName} = state
+  const { glitchAppName, gitHubRepoName } = state
   const ghButton = state.cache(GitHubButton, 'gitHubButton', gitHubRepoName).render()
   return html`
     <footer class=${prefix}>
