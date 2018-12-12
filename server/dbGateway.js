@@ -17,7 +17,7 @@ setInterval(function cleanup () {
   sortedCabals.forEach((entry, index) => {
     const { cabal, lastAccess, clients, peers } = entry
     const key = cabal.key && cabal.key.toString('hex')
-    console.log(`  ${index} ${lastAccess} ${key} (${clients} clients, ${peers} peers)`)
+    console.log(`  ${index} ${lastAccess} ${key} (${clients} clients)`) // , ${peers} peers)`)
   })
   if (sortedCabals.length > maxCabals) {
     for (let i = 0; i < sortedCabals.length - maxCabals; i++) {
@@ -52,14 +52,14 @@ function dbGateway (router) {
           clients: 0,
           peers: 0
         }
-        cabal.on('peer-added', function (key) {
-        // console.log('peer added')
-          cabals[cabalKey].peers++
-        })
-        cabal.on('peer-dropped', function (key) {
-        // console.log('peer dropped')
-          cabals[cabalKey].peers--
-        })
+//         cabal.on('peer-added', function (key) {
+//         // console.log('peer added')
+//           cabals[cabalKey].peers++
+//         })
+//         cabal.on('peer-dropped', function (key) {
+//         // console.log('peer dropped')
+//           cabals[cabalKey].peers--
+//         })
         cabal.publishNick('msgland')
       // cabal.publish({
       //   type: 'chat/text',
