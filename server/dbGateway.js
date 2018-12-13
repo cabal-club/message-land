@@ -25,7 +25,7 @@ setInterval(function cleanup () {
 
     // Large chats seem to be breaking server =(
     // Temporarily removing them
-    if (feeds.length > MAX_FEEDS) {
+    if (feeds > MAX_FEEDS) {
       console.log(`Releasing ${key} b/c of feed count`)
       cabal.cancel()
     }
