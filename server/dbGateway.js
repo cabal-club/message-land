@@ -8,19 +8,30 @@ const swarm = require('cabal-core/swarm')
 
 module.exports = dbGateway
 
-const maxCabals = 50 // seem to get pretty slow with big chats?
+const MAX_PEERS = 10 // p2p peer count
+const MAX_CABALS = 20 // seem to get pretty slow with big chats?
+const MAX_FEEDS = 128 // restrict chat size for now
+
 const cabals = {}
 
 setInterval(function cleanup () {
   const sortedCabals = Object.values(cabals).sort((a, b) => a.lastAccess - b.lastAccess)
   console.log('Oldest to newest gatewayed cabals:')
   sortedCabals.forEach((entry, index) => {
-    const { cabal, lastAccess, clients, peers } = entry
+    const { cabal, lastAccess, clients } = entry
     const key = cabal.key && cabal.key.toString('hex')
-    console.log(`  ${index} ${lastAccess} ${key} (${clients} clients)`) // , ${peers} peers)`)
+    const feeds = cabal.db.feeds().length
+    console.log(`  ${index} ${lastAccess} ${key} (${clients} clients, ${feeds} feeds)`) // , ${peers} peers)`)
+
+    // Large chats seem to be breaking server =(
+    // Temporarily removing them
+    if (feeds.length > MAX_FEEDS) {
+      console.log(`Releasing ${key} b/c of feed count`)
+      cabal.cancel()
+    }
   })
-  if (sortedCabals.length > maxCabals) {
-    for (let i = 0; i < sortedCabals.length - maxCabals; i++) {
+  if (sortedCabals.length > MAX_CABALS) {
+    for (let i = 0; i < sortedCabals.length - MAX_CABALS; i++) {
       const cabal = sortedCabals[i].cabal
       const key = cabal.key && cabal.key.toString('hex')
       console.log(`Releasing ${i} ${key}`)
@@ -52,14 +63,6 @@ function dbGateway (router) {
           clients: 0,
           peers: 0
         }
-//         cabal.on('peer-added', function (key) {
-//         // console.log('peer added')
-//           cabals[cabalKey].peers++
-//         })
-//         cabal.on('peer-dropped', function (key) {
-//         // console.log('peer dropped')
-//           cabals[cabalKey].peers--
-//         })
         cabal.publishNick('msgland')
       // cabal.publish({
       //   type: 'chat/text',
@@ -72,11 +75,12 @@ function dbGateway (router) {
 
       cabal.db.ready(() => {
       // Join swarm
-        const sw = swarm(cabal)
+        const sw = swarm(cabal, { maxConnections: MAX_PEERS })
         cabals[cabalKey].swarm = sw
 
         cabals[cabalKey].clients += 1
         const stream = websocketStream(ws)
+        cabals[cabalKey].stream = stream
 
         pump(
           stream,
@@ -92,7 +96,9 @@ function dbGateway (router) {
       function cancel () {
         console.log(`Cancelling ${cabalKey}`)
         const sw = cabals[cabalKey].swarm
+        const stream = cabals[cabalKey].stream
         if (sw) sw.close()
+        if (stream) stream.close()
         // cabal doesn't have close fn yet
         // cabal.db.source.peers.forEach(peer => peer.end()) // TODO ?
         delete cabals[cabalKey]
