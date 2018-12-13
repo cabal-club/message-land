@@ -52,10 +52,14 @@ function dbGateway (router) {
       const cabalKey = req.params.key
       console.log('Websocket initiated for', cabalKey)
       let cabal
+      if (bannedCabals.indexOf(cabalKey) > -1) return ws.send(501) // ?
       if (cabals[cabalKey]) {
         cabal = cabals[cabalKey].cabal
         cabals[cabalKey].lastAccess = Date.now()
-        if (cabals[cabalKey].feeds > MAX_FEEDS) return cabals[cabalKey].cancel() // pretty lazy for now ...
+        if (cabals[cabalKey].feeds > MAX_FEEDS) {
+          bannedCabals.push(cabalKey)
+          return cabals[cabalKey].cancel() // pretty lazy for now ...
+        }
       } else {
         cabal = Cabal(path.join('.data', cabalKey), cabalKey)
         cabals[cabalKey] = {
@@ -91,6 +95,7 @@ function dbGateway (router) {
           err => {
             console.log('pipe finished for ' + cabalKey, err && err.message)
             cabals[cabalKey].clients -= 1
+            if (err && err.message.indexOf('256 feeds') > -1) bannedCabals.push(cabalKey)
           }
         )
       })
@@ -100,7 +105,7 @@ function dbGateway (router) {
         const sw = cabals[cabalKey].swarm
         const stream = cabals[cabalKey].stream
         if (sw) sw.close()
-        if (stream) stream.close()
+        if (stream) stream.destroy()
         // cabal doesn't have close fn yet
         // cabal.db.source.peers.forEach(peer => peer.end()) // TODO ?
         delete cabals[cabalKey]
