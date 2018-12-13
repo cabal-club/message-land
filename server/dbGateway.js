@@ -13,12 +13,13 @@ const MAX_CABALS = 20 // seem to get pretty slow with big chats?
 const MAX_FEEDS = 128 // restrict chat size for now
 
 const cabals = {}
+const bannedCabals = []
 
 setInterval(function cleanup () {
   const sortedCabals = Object.values(cabals).sort((a, b) => a.lastAccess - b.lastAccess)
   console.log('Oldest to newest gatewayed cabals:')
   sortedCabals.forEach((entry, index) => {
-    const { cabal, lastAccess, clients } = entry
+    const { cabal, lastAccess, clients, cancel } = entry
     const key = cabal.key && cabal.key.toString('hex')
     const feeds = cabal.db.feeds().length
     console.log(`  ${index} ${lastAccess} ${key} (${clients} clients, ${feeds} feeds)`) // , ${peers} peers)`)
@@ -27,7 +28,7 @@ setInterval(function cleanup () {
     // Temporarily removing them
     if (feeds > MAX_FEEDS) {
       console.log(`Releasing ${key} b/c of feed count`)
-      cabal.cancel()
+      cancel()
     }
   })
   if (sortedCabals.length > MAX_CABALS) {
@@ -54,6 +55,7 @@ function dbGateway (router) {
       if (cabals[cabalKey]) {
         cabal = cabals[cabalKey].cabal
         cabals[cabalKey].lastAccess = Date.now()
+        if (cabals[cabalKey].feeds > MAX_FEEDS) return cabals[cabalKey].cancel() // pretty lazy for now ...
       } else {
         cabal = Cabal(path.join('.data', cabalKey), cabalKey)
         cabals[cabalKey] = {
